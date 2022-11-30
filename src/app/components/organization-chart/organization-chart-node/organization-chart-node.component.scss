@@ -1,0 +1,116 @@
+$colorBorder: #000;
+$colorContent: #495057;
+$white: #ffffff;
+
+@mixin node-toggler-line-up() {
+    position: relative;
+    .node-toggler {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        border-radius: 50%;
+
+        &-point {
+            background: $colorBorder;
+            height: inherit;
+            border-radius: 50%;
+        }
+    }
+}
+
+:host {
+    width: 100%;
+}
+
+.organization-chart-node {
+    border: 1px solid $colorBorder;
+    padding: 18px;
+    width: fit-content;
+    margin: 0 auto;
+    cursor: pointer;
+
+    &-content {
+        border: 1px solid $colorBorder;
+        background: $white;
+        color: $colorContent;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &-disable {
+        cursor: default !important;
+    }
+}
+
+.organization-chart-line-down {
+    margin: 0 auto;
+    height: 20px;
+    width: 4px;
+    background: $colorBorder;
+    position: relative;
+
+    .node-toggler {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        right: calc(50% - 5px);
+        top: -6px;
+        background: $white;
+        border-radius: 50%;
+
+        &-point {
+            background: $colorBorder;
+            height: inherit;
+            border-radius: 50%;
+        }
+    }
+}
+
+.organization-chart-line-up {
+    height: 20px;
+    display: flex;
+
+    > * {
+        display: flex;
+        border-top: 4px solid;
+    }
+
+    &-none {
+        border: none !important;
+    }
+
+    &-right{
+        border-left: 4px solid;
+
+        &-point {
+            @include node-toggler-line-up();
+            .node-toggler {
+                left: -7px;
+                top: 12px;
+            }
+        }
+    }
+
+    &-left {
+        &-last {
+            border-right: 4px solid;
+        }
+
+        &-point {
+            @include node-toggler-line-up();
+            .node-toggler {
+                top: 12px;
+                right: -7px;
+            }
+        }
+    }
+}
+
+.organization-chart-node-children {
+    display: flex;
+    justify-content: space-evenly;
+}

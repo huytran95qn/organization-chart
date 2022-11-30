@@ -1,0 +1,54 @@
+<ng-container *ngIf="node">
+  <div class="organization-chart-node" (click)="selectedNode()"
+    [ngClass]="{
+      'organization-chart-node-disable': node.disabled
+    }">
+    <div class="organization-chart-node-content">
+      {{ node.label }}
+
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <ng-container *ngIf="node.children && node.children.length > 0">
+    <div class="organization-chart-line-down">
+      <div class="node-toggler">
+        <div class="node-toggler-point"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="node.children && node.children.length > 1">
+    <div class="organization-chart-line-up" style=" display: flex;">
+      <ng-container *ngFor="let child of node.children; first as first; last as last">
+        <div class="organization-chart-line-up-left"
+          [style.width.%]="100/(node.children.length)*2"
+          [ngClass]="{
+            'organization-chart-line-up-none': first,
+            'organization-chart-line-up-left-last': last,
+            'organization-chart-line-up-left-point': last
+          }">
+          <div class="node-toggler">
+            <div class="node-toggler-point"></div>
+          </div>
+        </div>
+        <div class="organization-chart-line-up-right"
+          [style.width.%]="100/(node.children.length)*2"
+          [ngClass]="{
+            'organization-chart-line-up-none': last,
+            'organization-chart-line-up-right-point': !last
+          }">
+          <div class="node-toggler">
+            <div class="node-toggler-point"></div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div class="organization-chart-node-children">
+    <ng-container *ngFor="let child of node.children">
+      <organization-chart-node [node]="child"></organization-chart-node>
+    </ng-container>
+  </div>
+</ng-container>
